@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane prefHeight="500.0" prefWidth="1036.0" style="-fx-border-color: black;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Pane maxHeight="-Infinity" prefHeight="81.0" prefWidth="1036.0">
+         <children>
+            <Text layoutX="14.0" layoutY="37.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dashboard" wrappingWidth="142.80337524414062">
+               <font>
+                  <Font name="SansSerif Bold" size="24.0" />
+               </font>
+            </Text>
+            <Text layoutX="14.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to CsSurvivor Admin!" wrappingWidth="204.80343627929688">
+               <font>
+                  <Font size="13.0" />
+               </font>
+            </Text>
+         </children>
+      </Pane>
+
+      <HBox alignment="BOTTOM_CENTER" layoutX="-2.0" layoutY="74.0" prefHeight="132.0" prefWidth="1036.0" spacing="109.0">
+         <children>
+            <Pane prefHeight="132.0" prefWidth="125.0">
+               <children>
+                  <ImageView fitHeight="68.0" fitWidth="58.0" layoutX="4.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Image/AdminInterface/burger.png" />
+                     </image>
+                  </ImageView>
+                  <Text fill="#a3a3a3" layoutX="71.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOTAL MENUS" wrappingWidth="65.54811096191406">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="71.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="56">
+                     <font>
+                        <Font name="System Bold Italic" size="24.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane prefHeight="132.0" prefWidth="125.0">
+               <children>
+                  <ImageView fitHeight="68.0" fitWidth="58.0" layoutX="4.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Image/AdminInterface/dollar-sign.png" />
+                     </image>
+                  </ImageView>
+                  <Text fill="#a3a3a3" layoutX="63.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOTAL REVENUES" wrappingWidth="72.21479797363281">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="63.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="500K">
+                     <font>
+                        <Font name="System Bold Italic" size="24.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane prefHeight="132.0" prefWidth="125.0">
+               <children>
+                  <ImageView fitHeight="68.0" fitWidth="58.0" layoutX="4.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Image/AdminInterface/shopping-bag.png" />
+                     </image>
+                  </ImageView>
+                  <Text fill="#a3a3a3" layoutX="71.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOTAL ORDERS" wrappingWidth="65.54811096191406">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="71.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="56">
+                     <font>
+                        <Font name="System Bold Italic" size="24.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+            <Pane prefHeight="132.0" prefWidth="125.0">
+               <children>
+                  <ImageView fitHeight="68.0" fitWidth="58.0" layoutX="4.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+                     <image>
+                        <Image url="@../../Image/AdminInterface/multiple-users.png" />
+                     </image>
+                  </ImageView>
+                  <Text fill="#a3a3a3" layoutX="71.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOTAL CLIENTS" wrappingWidth="65.54811096191406">
+                     <font>
+                        <Font name="System Bold" size="14.0" />
+                     </font>
+                  </Text>
+                  <Text layoutX="71.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="56">
+                     <font>
+                        <Font name="System Bold Italic" size="24.0" />
+                     </font>
+                  </Text>
+               </children>
+            </Pane>
+         </children>
+      </HBox>
+
+
+
+   </children>
+</AnchorPane>

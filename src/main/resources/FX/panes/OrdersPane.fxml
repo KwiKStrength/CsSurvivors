@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+<AnchorPane xmlns="http://javafx.com/javafx"
+            xmlns:fx="http://javafx.com/fxml"
+            prefHeight="400.0" prefWidth="1200"
+            fx:controller="Interface.InterfaceAdmin.controllers.panes.OrdersPaneController">
+
+    <ScrollPane AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" AnchorPane.bottomAnchor="0.0"
+                fitToWidth="true">
+        <VBox>
+            <!-- Table Header -->
+            <HBox style="-fx-background-color: lightgray;">
+                <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="170">Order ID</Label>
+                <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="170">Date</Label>
+                <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="170">Customer Name</Label>
+                <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="170">Location</Label>
+                <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="170">Amount</Label>
+                <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="170">Status Order</Label>
+            </HBox>
+
+            <!-- Table Content (Populated Dynamically) -->
+            <VBox stylesheets="@../../FX/css/Buttons.css" fx:id="tableContent" VBox.vgrow="ALWAYS"/>
+        </VBox>
+    </ScrollPane>
+</AnchorPane>

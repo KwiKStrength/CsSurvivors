@@ -15,4 +15,24 @@ module CsSurvivors {
     requires io;
     requires kernel;
     requires layout;
+    requires javafx.controls;
+    requires javafx.fxml;
+    requires com.dlsc.formsfx;
+    requires MaterialFX;
+    requires java.sql.rowset;
+
+    exports Interface.InterfaceAdmin.interfaces;
+    opens Interface.InterfaceAdmin.interfaces to javafx.fxml;
+
+    opens Interface.InterfaceAdmin.controllers to javafx.fxml;
+    exports Interface.InterfaceAdmin.controllers;
+
+
+    exports Interface.InterfaceAdmin.interfaces.panes;
+
+    opens Interface.InterfaceAdmin.controllers.panes to javafx.fxml, javafx.base;
+    exports Interface.InterfaceAdmin.controllers.panes;
+    opens Interface.InterfaceAdmin.interfaces.panes to javafx.base, javafx.fxml;
+    exports Class;
+    opens Class to javafx.fxml;
 }

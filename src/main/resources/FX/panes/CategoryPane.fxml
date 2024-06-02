@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ScrollPane?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+
+<AnchorPane prefHeight="400.0" prefWidth="1200" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interface.InterfaceAdmin.controllers.panes.CategoryPaneController">
+
+    <ScrollPane  AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+        <VBox>
+            <!-- Table Header -->
+            <HBox style="-fx-background-color: lightgray;">
+                <Label prefWidth="170" style="-fx-padding: 5px;" HBox.hgrow="ALWAYS">Category ID</Label>
+                <Label prefWidth="170" style="-fx-padding: 5px;" HBox.hgrow="ALWAYS">Category Name</Label>
+                <Label prefWidth="170" style="-fx-padding: 5px;" HBox.hgrow="ALWAYS">Image</Label>
+                <Label prefWidth="100" style="-fx-padding: 5px;" HBox.hgrow="ALWAYS">Actions</Label>
+            </HBox>
+
+            <!-- Table Content (Populated Dynamically) -->
+            <VBox fx:id="tableContent" VBox.vgrow="ALWAYS" />
+        </VBox>
+    </ScrollPane>
+</AnchorPane>

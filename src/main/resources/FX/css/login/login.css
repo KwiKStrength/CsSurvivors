@@ -1,0 +1,7 @@
+.image {
+    -fx-background-image: url('../../../Image/AdminInterface/resto.jpeg');
+    -fx-background-size: cover; /* Optional: Adjust as per your requirement */
+    -fx-background-color: rgba(0, 0, 0, 1); /* Adjust the alpha value to control darkness */
+    -fx-background-position: center; /* Center the background image */
+}
+
