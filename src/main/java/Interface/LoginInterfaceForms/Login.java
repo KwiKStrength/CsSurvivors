@@ -21,6 +21,7 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.util.prefs.Preferences;
 
 public class Login extends JPanel {
 
@@ -28,9 +29,11 @@ public class Login extends JPanel {
     MenuInterface app;
     int USERID;
     String role;
+    Preferences preferences;
 
     public Login(LoginInterface loginInterface, LoginInterface.Overlay.PanelOverlay parentOverlay) {
         this.loginInterface = loginInterface;
+        this.preferences = Preferences.userRoot().node(this.getClass().getName());
 
         init();
     }
@@ -64,6 +67,11 @@ public class Login extends JPanel {
         txtUsername.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your Username");
         txtPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your Password");
 
+        // Load saved username and password
+        txtUsername.setText(preferences.get("username", ""));
+        txtPassword.setText(preferences.get("password", ""));
+        chRememberMe.setSelected(preferences.getBoolean("rememberMe", false));
+
         add(title);
         add(new JLabel("Username"), "gapy 20");
         add(txtUsername);
@@ -85,11 +93,10 @@ public class Login extends JPanel {
                     statement.setString(1, username);
                     statement.setString(2, hashedPassword);
                     ResultSet resultSet = statement.executeQuery();
-                    
-                    
+
                     if (resultSet.next()) {
                         role = resultSet.getString("role");
-                        if(role.equals("student")) {
+                        if (role.equals("student")) {
                             loginInterface.setVisible(false);
                             try {
                                 USERID = resultSet.getInt("USERID");
@@ -104,8 +111,19 @@ public class Login extends JPanel {
                             loginInterface.setVisible(false);
                             Dashboard.launchDashboard();
                         } else if (role.equals("chef")) {
-                            
+                            // Handle chef login
                         }
+
+                        if (chRememberMe.isSelected()) {
+                            preferences.put("username", username);
+                            preferences.put("password", password);
+                            preferences.putBoolean("rememberMe", true);
+                        } else {
+                            preferences.remove("username");
+                            preferences.remove("password");
+                            preferences.putBoolean("rememberMe", false);
+                        }
+
                     } else {
                         JOptionPane.showMessageDialog(null, "Wrong Informations");
                     }
@@ -113,10 +131,9 @@ public class Login extends JPanel {
                 } catch (SQLException | NoSuchAlgorithmException ex) {
                     JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
                 }
-                    
+
             }
         };
-
 
         cmdLogin.addActionListener(loginAction);
     }
@@ -142,6 +159,4 @@ public class Login extends JPanel {
         }
         return stringBuilder.toString();
     }
-
-
 }

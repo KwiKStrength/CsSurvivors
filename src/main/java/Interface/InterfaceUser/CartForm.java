@@ -23,7 +23,7 @@ public class CartForm extends JPanel {
 
     private int userID;
     private JScrollPane scrollPane;
-    private JPanel cartPanel;
+    private JPanel scrollContentPanel;
     private JButton checkoutButton;
     private JLabel totalLabel;
 
@@ -35,10 +35,9 @@ public class CartForm extends JPanel {
 
     private void init() {
         setLayout(new MigLayout("insets 10", "[grow]", "[grow]10[]"));
-        cartPanel = this;
-        scrollPane = new JScrollPane();
-        scrollPane.setMaximumSize(new Dimension(1000,600));
-        scrollPane.setViewportView(new JPanel(new MigLayout("wrap 1, gap 10", "[]", "[grow][]")));
+        scrollContentPanel = new JPanel(new MigLayout("wrap 1, gap 10", "[]", "[]"));
+        scrollPane = new JScrollPane(scrollContentPanel);
+        scrollPane.setPreferredSize(new Dimension(1000, 600));
 
         checkoutButton = new JButton("Checkout");
         checkoutButton.putClientProperty(FlatClientProperties.STYLE, "" +
@@ -48,12 +47,8 @@ public class CartForm extends JPanel {
                 "font:bold +16;");
 
         checkoutButton.addActionListener(e -> {
-            removeAll();
             checkout();
-            revalidate();
-            repaint();
-                }
-        );
+        });
 
         totalLabel = new JLabel();
         totalLabel.putClientProperty(FlatClientProperties.STYLE,""+
@@ -61,32 +56,28 @@ public class CartForm extends JPanel {
         updateTotal();
 
         loadCartItems();
+
+        add(scrollPane, "grow, wrap");
+        add(totalLabel, "split 2, align left");
+        add(checkoutButton, "align right");
     }
 
     public void loadCartItems() {
-        JPanel panel = (JPanel) scrollPane.getViewport().getView();
-        panel.removeAll();
+        scrollContentPanel.removeAll();
         List<CartPanel> cartItems = fetchCartItems();
 
         if (cartItems.isEmpty()) {
             JLabel emptyLabel = new JLabel("EMPTY CART");
             emptyLabel.putClientProperty(FlatClientProperties.STYLE,"font:light +28");
-            cartPanel.add(emptyLabel, "align center");
+            scrollContentPanel.add(emptyLabel, "align center");
         } else {
-            cartPanel.add(scrollPane, "grow, wrap");
             for (CartPanel cartItem : cartItems) {
-                panel.add(cartItem, "wrap, alignx left, top");
+                scrollContentPanel.add(cartItem, "wrap");
             }
-            JPanel totalPanel = new JPanel(new MigLayout("insets 0"));
-            totalPanel.add(totalLabel);
-            cartPanel.add(totalPanel, "split");
-            JPanel buttonPanel = new JPanel(new MigLayout("insets 0"));
-            buttonPanel.add(checkoutButton);
-            cartPanel.add(buttonPanel);
         }
+        scrollContentPanel.revalidate();
+        scrollContentPanel.repaint();
     }
-
-
 
     private List<CartPanel> fetchCartItems() {
         List<CartPanel> cartItems = new ArrayList<>();
@@ -159,10 +150,19 @@ public class CartForm extends JPanel {
         }
     }
 
-
     private void checkout() {
+        List<CartItemInfo> cartItemsInfo = fetchCartItemInfo();
+
+        if (cartItemsInfo.isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Your cart is empty. Add items to the cart before checkout.", "Empty Cart", JOptionPane.WARNING_MESSAGE);
+            return;
+        }
+
         try (Connection conn = Connexion.etablirConnexion()) {
-            List<CartPanel> cartItems = fetchCartItems();
+            if (hasPendingOrBeingPreparedOrder(conn)) {
+                JOptionPane.showMessageDialog(null, "You already have an order in progress. Please wait until it is completed before placing a new order.", "Order In Progress", JOptionPane.WARNING_MESSAGE);
+                return;
+            }
 
             SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
             String dateString = sdf.format(new Date());
@@ -177,8 +177,6 @@ public class CartForm extends JPanel {
                 orderStmt.setBigDecimal(4, calculateTotal());
                 orderStmt.executeUpdate();
             }
-
-            List<CartItemInfo> cartItemsInfo = fetchCartItemInfo();
 
             String insertOrderItemQuery = "INSERT INTO ORDERITEM (ORDERID, ITEMID, quantity) VALUES (?, ?, ?)";
             try (PreparedStatement orderItemStmt = conn.prepareStatement(insertOrderItemQuery)) {
@@ -203,6 +201,18 @@ public class CartForm extends JPanel {
         }
     }
 
+    private boolean hasPendingOrBeingPreparedOrder(Connection conn) throws SQLException {
+        String query = "SELECT COUNT(*) FROM ORDER_TABLE WHERE USERID = ? AND (orderstatus = 'Pending' OR orderstatus = 'Being prepared')";
+        try (PreparedStatement stmt = conn.prepareStatement(query)) {
+            stmt.setInt(1, userID);
+            ResultSet rs = stmt.executeQuery();
+            if (rs.next()) {
+                return rs.getInt(1) > 0;
+            }
+        }
+        return false;
+    }
+
 
     private int fetchOrderCount(String dateString) throws SQLException {
         try (Connection conn = Connexion.etablirConnexion();
@@ -214,7 +224,6 @@ public class CartForm extends JPanel {
         }
         return 0;
     }
-
 
     public void updateTotal() {
         BigDecimal total = calculateTotal();
