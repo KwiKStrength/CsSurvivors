@@ -29,7 +29,7 @@ import java.io.IOException;
 
 public class LoginInterface extends JFrame {
 
-    Background background;
+    static Background background;
     private LoginInterface loginInterface;
 
     public LoginInterface(){
@@ -87,8 +87,8 @@ public class LoginInterface extends JFrame {
             mediaPlayer.videoSurface().set(factory.videoSurfaces().newVideoSurface(canvas));
             setLayout(new BorderLayout());
             add(canvas, BorderLayout.CENTER);
-            mediaPlayer.audio().setMute(true);
             mediaPlayer.controls().setRepeat(true);
+            mediaPlayer.audio().isMute();
         }
 
         public void play(){

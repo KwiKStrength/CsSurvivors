@@ -1,70 +1,53 @@
 package Components;
 
-import javax.swing.*;
-import javax.swing.border.AbstractBorder;
+import Class.Connexion;
+import com.formdev.flatlaf.FlatClientProperties;
 import net.miginfocom.swing.MigLayout;
 
+import javax.swing.*;
+import javax.swing.border.AbstractBorder;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
-import java.sql.*;
 import java.util.List;
-
-import Class.Connexion;
 
 public class OrderPanel extends JPanel {
 
-    private int count;
+    public OrderPanel(int USERID, Date dt, String orderstatus, float orderprice, List<Integer> ITEMID, List<Integer> quantity, JScrollPane parent,String orderID) {
+        setLayout(new MigLayout("fillx, insets 9", "[grow][]", "[]10[][]"));
+        setBorder(new RoundBorder(15));
 
-    public OrderPanel(int USERID, Date dt, String orderstatus, float orderprice, List<Integer> ITEMID, List<Integer> quantity, JScrollPane parent) {
-        setLayout(new MigLayout("fillx"));
-        setBorder(new RoundBorder(10));
+        JLabel titleLabel = new JLabel(orderID);
+        titleLabel.putClientProperty(FlatClientProperties.STYLE, "font: bold +14");
+        add(titleLabel, "span, gapbottom 10, wrap");
 
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd");
-        String dateString = sdf.format(dt);
-
-        try {
-            Connection conn = Connexion.etablirConnexion();
-            PreparedStatement stmt = conn.prepareStatement("SELECT COUNT(*) FROM ORDER_TABLE WHERE dt = CURDATE()");
-            ResultSet rs = stmt.executeQuery();
-            if (rs.next()) {
-                count = rs.getInt(1);
-            }
-            rs.close();
-            stmt.close();
-            conn.close();
-        } catch (SQLException e) {
-            e.printStackTrace();
-        }
-
-        String title = "SH" + dateString + count;
-        JLabel titleLabel = new JLabel(title);
-        titleLabel.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE, "font:bold 20px;");
-        add(titleLabel, "span, gapbottom 10");
+        JLabel dateLabel = new JLabel("Order Date: " + new SimpleDateFormat("dd-MM-yyyy").format(dt));
+        dateLabel.putClientProperty(FlatClientProperties.STYLE, "font: regular +12");
+        add(dateLabel, "span, gapbottom 10, wrap");
 
         JLabel statusLabel = new JLabel("Order Status: " + orderstatus);
-        statusLabel.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE, "font:bold;");
-        add(statusLabel, "span, gapbottom 10");
+        statusLabel.putClientProperty(FlatClientProperties.STYLE, "font: italic +11");
+        add(statusLabel, "span, gapbottom 10, wrap");
 
-        JButton detailsButton = new JButton("...");
-        detailsButton.putClientProperty(com.formdev.flatlaf.FlatClientProperties.STYLE, "font:bold 16px;");
+        JButton detailsButton = new JButton("Details");
+        detailsButton.putClientProperty(FlatClientProperties.STYLE, "font: bold +13");
         detailsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                OrderDetails orderDetailsPanel = new OrderDetails(title, ITEMID, quantity, USERID, dt, orderprice, orderstatus);
+                OrderDetails orderDetailsPanel = new OrderDetails(orderID, ITEMID, quantity, USERID, dt, orderprice, orderstatus);
 
                 JViewport viewport = parent.getViewport();
 
                 viewport.setView(orderDetailsPanel);
             }
         });
-        add(detailsButton, "split, aligny center, gapleft 5");
-
-        add(Box.createHorizontalGlue(), "growx");
-
-        setPreferredSize(new Dimension(1000, 300));
+        add(detailsButton, "align right");
     }
 
     public class RoundBorder extends AbstractBorder {
@@ -77,6 +60,7 @@ public class OrderPanel extends JPanel {
         @Override
         public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
             Graphics2D g2d = (Graphics2D) g.create();
+            g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
             g2d.drawRoundRect(x, y, width - 1, height - 1, radius, radius);
             g2d.dispose();
         }

@@ -1,33 +1,24 @@
 package Components;
 
-import com.itextpdf.kernel.colors.Color;
-import com.itextpdf.kernel.colors.DeviceRgb;
 import com.itextpdf.kernel.geom.PageSize;
 import com.itextpdf.kernel.pdf.PdfDocument;
 import com.itextpdf.kernel.pdf.PdfString;
 import com.itextpdf.kernel.pdf.PdfWriter;
 import com.itextpdf.kernel.pdf.canvas.draw.DottedLine;
 import com.itextpdf.layout.Document;
-import com.itextpdf.layout.element.*;
-import com.itextpdf.layout.element.Image;
-import com.itextpdf.layout.properties.HorizontalAlignment;
-import com.itextpdf.layout.properties.TextAlignment;
-import com.itextpdf.layout.properties.UnitValue;
-import net.miginfocom.swing.MigLayout;
+import com.itextpdf.layout.element.Paragraph;
 import javax.swing.*;
 import javax.swing.border.AbstractBorder;
-import com.formdev.flatlaf.FlatClientProperties;
-import com.itextpdf.barcodes.BarcodeQRCode;
-import com.itextpdf.io.image.ImageData;
-import com.itextpdf.io.image.ImageDataFactory;
+
+import com.itextpdf.layout.element.LineSeparator;
+
 import Class.Connexion;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Paths;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -36,10 +27,13 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+import com.formdev.flatlaf.FlatClientProperties;
+import com.itextpdf.layout.properties.TextAlignment;
+import net.miginfocom.swing.MigLayout;
 public class OrderDetails extends JPanel {
 
     public OrderDetails(String ORDERID, List<Integer> ITEMIDList, List<Integer> quantityList, int USERID, Date dt, float orderprice, String orderstatus) {
-        setLayout(new MigLayout("fill","[fill,grow][fill,grow][]","[]5[]5[]30[]push[]"));
+        setLayout(new MigLayout("fillx, insets 15", "[grow][grow]push[]", "[][][]"));
         setBorder(new RoundBorder(15));
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String dateString = sdf.format(dt);
@@ -119,42 +113,16 @@ public class OrderDetails extends JPanel {
                 PdfWriter writer = new PdfWriter(filePath);
                 PdfDocument pdf = new PdfDocument(writer);
                 Document document = new Document(pdf, PageSize.A4);
+
                 pdf.getCatalog().setLang(new PdfString("en-US"));
-                pdf.getDocumentInfo().setTitle(ORDERID +" Details");
+                pdf.getDocumentInfo().setTitle(ORDERID +"Details");
                 pdf.getDocumentInfo().setAuthor("CAMPUS GRILL");
 
-                Color headerColor = new DeviceRgb(63, 169, 219);
-                Color titleColor = new DeviceRgb(44, 62, 80);
-                Color separatorColor = new DeviceRgb(189, 195, 199);
-
-                document.setMargins(36, 36, 36, 36);
-
-                Paragraph header = new Paragraph("Order Details")
-                        .setFontSize(20)
-                        .setFontColor(headerColor)
-                        .setBold()
-                        .setTextAlignment(TextAlignment.CENTER)
-                        .setMarginBottom(20);
-                document.add(header);
-
-                Paragraph orderIdParagraph = new Paragraph("ORDERID: " + ORDERID)
-                        .setFontSize(18)
-                        .setFontColor(titleColor)
-                        .setBold();
-                document.add(orderIdParagraph);
-
-                Paragraph statusParagraph = new Paragraph("Order Status: " + orderstatus)
-                        .setFontSize(14)
-                        .setFontColor(titleColor);
-                document.add(statusParagraph);
-
-                Paragraph dateParagraph = new Paragraph("Date: " + dateString)
-                        .setFontSize(14)
-                        .setItalic();
-                document.add(dateParagraph);
-
-                document.add(new LineSeparator(new DottedLine()).setStrokeColor(separatorColor).setMarginBottom(10));
-
+                document.add(new LineSeparator(new DottedLine()));
+                document.add(new Paragraph("ORDERID: " + ORDERID).setFontSize(24).setBold());
+                document.add(new Paragraph("Order Status: " + orderstatus).setFontSize(16));
+                document.add(new Paragraph("Date: " + dateString).setFontSize(16).setItalic());
+                document.add(new LineSeparator(new DottedLine()));
                 Connection conn = Connexion.etablirConnexion();
                 PreparedStatement stmt = conn.prepareStatement("SELECT name FROM ITEM WHERE ITEMID = ?");
                 for (int i = 0; i < ITEMIDList.size(); i++) {
@@ -165,30 +133,20 @@ public class OrderDetails extends JPanel {
                     if (rs.next()) {
                         String itemName = rs.getString("name");
                         String itemDescription = quantity + "x " + itemName;
-                        Paragraph itemParagraph = new Paragraph("Item: " + itemDescription)
-                                .setFontSize(12)
-                                .setMarginBottom(5);
-                        document.add(itemParagraph);
+                        document.add(new Paragraph("Item: " + itemDescription).setFontSize(14));
                     }
                     rs.close();
                 }
                 stmt.close();
                 conn.close();
 
-                document.add(new LineSeparator(new DottedLine()).setStrokeColor(separatorColor).setMarginTop(10).setMarginBottom(10));
-
-                Paragraph totalPriceParagraph = new Paragraph("Total Price: " + orderprice +" DH")
-                        .setFontSize(16)
-                        .setBold()
-                        .setTextAlignment(TextAlignment.RIGHT);
+                PageSize pageSize = PageSize.A4;
+                float totalPriceY = pageSize.getBottom() + 36;
+                Paragraph totalPriceParagraph = new Paragraph("Total Price: " + orderprice +" DH").setFontSize(24).setBold();
+                totalPriceParagraph.setFixedPosition(0, totalPriceY+50, pageSize.getWidth());
+                totalPriceParagraph.setTextAlignment(TextAlignment.RIGHT);
+                document.add(new LineSeparator(new DottedLine()).setFixedPosition(0, totalPriceY, pageSize.getWidth() - 72));
                 document.add(totalPriceParagraph);
-
-                BarcodeQRCode qrCode = new BarcodeQRCode(filePath);
-                Image qrCodeImage = new Image(qrCode.createFormXObject(null, pdf))
-                        .setWidth(UnitValue.createPercentValue(15))
-                        .setHorizontalAlignment(HorizontalAlignment.RIGHT);
-                document.add(qrCodeImage);
-
                 document.close();
             } catch (IOException | SQLException ex) {
                 JOptionPane.showMessageDialog(null, "Error generating PDF: " + ex.getMessage(), "Error", JOptionPane.ERROR_MESSAGE);
