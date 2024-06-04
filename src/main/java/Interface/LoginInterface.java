@@ -45,6 +45,7 @@ public class LoginInterface extends JFrame {
     }
 
     public static void main(String[] args) {
+        System.setProperty("jna.library.path", "/Applications/VLC.app/Contents/MacOS/lib");
         FlatInterFont.install();
         FlatMacDarkLaf.setup();
         UIManager.put("defaultFont", new Font(FlatInterFont.FAMILY, Font.PLAIN, 13));
@@ -92,7 +93,7 @@ public class LoginInterface extends JFrame {
             if(mediaPlayer.status().isPlaying()){
                 mediaPlayer.controls().stop();
             }
-            mediaPlayer.media().play("/src/main/resources/Video/BackgroundLogin.mp4");
+            mediaPlayer.media().play("/Video/BackgroundLogin.mp4");
         }
         public void pause(){
             mediaPlayer.release();
