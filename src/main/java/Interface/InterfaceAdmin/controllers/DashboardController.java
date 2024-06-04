@@ -100,7 +100,6 @@ public class DashboardController implements Initializable {
         Stage stage = (Stage) stackPane.getScene().getWindow();
         stage.close();
 
-        // Show the login interface
         SwingUtilities.invokeLater(() -> new LoginInterface().setVisible(true));
     }
 

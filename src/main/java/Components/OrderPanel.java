@@ -1,11 +1,10 @@
 package Components;
 
 import Class.Connexion;
-import com.formdev.flatlaf.FlatClientProperties;
-import net.miginfocom.swing.MigLayout;
-
 import javax.swing.*;
 import javax.swing.border.AbstractBorder;
+import com.formdev.flatlaf.FlatClientProperties;
+import net.miginfocom.swing.MigLayout;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -19,9 +18,13 @@ import java.util.List;
 
 public class OrderPanel extends JPanel {
 
-    public OrderPanel(int USERID, Date dt, String orderstatus, float orderprice, List<Integer> ITEMID, List<Integer> quantity, JScrollPane parent,String orderID) {
+    public static String role;
+
+    public OrderPanel(int USERID, Date dt, String orderstatus, float orderprice, List<Integer> ITEMID, List<Integer> quantity, JScrollPane parent, String orderID, String role) {
         setLayout(new MigLayout("fillx, insets 9", "[grow][]", "[]10[][]"));
         setBorder(new RoundBorder(15));
+
+        this.role = role;
 
         JLabel titleLabel = new JLabel(orderID);
         titleLabel.putClientProperty(FlatClientProperties.STYLE, "font: bold +14");
@@ -40,11 +43,16 @@ public class OrderPanel extends JPanel {
         detailsButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                OrderDetails orderDetailsPanel = new OrderDetails(orderID, ITEMID, quantity, USERID, dt, orderprice, orderstatus);
-
-                JViewport viewport = parent.getViewport();
-
-                viewport.setView(orderDetailsPanel);
+                String role = OrderPanel.role;
+                if (role.equals("student")) {
+                    OrderDetails orderDetailsPanel = new OrderDetails(orderID, ITEMID, quantity, USERID, dt, orderprice, orderstatus);
+                    JViewport viewport = parent.getViewport();
+                    viewport.setView(orderDetailsPanel);
+                } else if (role.equals("chef")) {
+                    OrderChef orderChefPanel = new OrderChef(orderID, ITEMID, quantity, dt, orderprice, orderstatus);
+                    JViewport viewport = parent.getViewport();
+                    viewport.setView(orderChefPanel);
+                }
             }
         });
         add(detailsButton, "align right");

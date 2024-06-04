@@ -1,29 +1,35 @@
-package Interface.InterfaceUser;
+package Interface.InterfaceChef;
 
 import Components.OrderPanel;
-import Class.Connexion;
+import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
-import net.miginfocom.swing.MigLayout;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.sql.*;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import Class.Connexion;
 
-public class OrderHistoryForm extends JPanel {
+public class OrderList extends JPanel {
 
     private JPanel contentPanel;
-    private JScrollPane scrollPane;
     private JComboBox<String> sortComboBox;
     private JComboBox<String> orderComboBox;
-    private int userId;
+    private JScrollPane scrollPane;
 
-    public OrderHistoryForm(int userId) {
-        this.userId = userId;
+    public OrderList(String role) {
         setLayout(new BorderLayout());
+        setPreferredSize(new Dimension(1280, 720));
+        JPanel innerPanel = new JPanel(new BorderLayout());
+        contentPanel = new JPanel(new MigLayout("wrap 1", "[grow, fill]", "10[]10"));
+        scrollPane = new JScrollPane(contentPanel);
+        innerPanel.add(scrollPane, BorderLayout.CENTER);
 
         JPanel controlPanel = new JPanel();
         JLabel sortLabel = new JLabel("Sort by:");
@@ -33,6 +39,16 @@ public class OrderHistoryForm extends JPanel {
         JLabel orderLabel = new JLabel("Order:");
         String[] orderOptions = {"ASC", "DESC"};
         orderComboBox = new JComboBox<>(orderOptions);
+
+        JButton allOrdersButton = new JButton("All Orders");
+        allOrdersButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                loadOrderHistory();
+            }
+        });
+
+        JButton logoutButton = new JButton("Logout");
 
         ActionListener sortActionListener = new ActionListener() {
             @Override
@@ -48,13 +64,11 @@ public class OrderHistoryForm extends JPanel {
         controlPanel.add(sortComboBox);
         controlPanel.add(orderLabel);
         controlPanel.add(orderComboBox);
-
-        scrollPane = new JScrollPane();
-        contentPanel = new JPanel(new MigLayout("wrap 1", "[grow, fill]", "10[]10"));
-        scrollPane.setViewportView(contentPanel);
+        controlPanel.add(allOrdersButton);
+        controlPanel.add(logoutButton);
 
         add(controlPanel, BorderLayout.NORTH);
-        add(scrollPane, BorderLayout.CENTER);
+        add(innerPanel, BorderLayout.CENTER);
 
         loadOrderHistory();
     }
@@ -62,21 +76,15 @@ public class OrderHistoryForm extends JPanel {
     private void loadOrderHistory() {
         contentPanel.removeAll();
 
-        String selectedSortOption = (String) sortComboBox.getSelectedItem();
-        String selectedOrderOption = (String) orderComboBox.getSelectedItem();
-        String orderByClause = "dt";
-
-        if ("Price".equals(selectedSortOption)) {
-            orderByClause = "orderprice";
-        }
-
-        String orderClause = "ASC".equals(selectedOrderOption) ? "ASC" : "DESC";
-
         try {
             Connection conn = Connexion.etablirConnexion();
-            String query = "SELECT * FROM ORDER_TABLE WHERE USERID = ? AND orderstatus = 'Delivered' ORDER BY " + orderByClause + " " + orderClause;
+            String query = "SELECT * FROM ORDER_TABLE ORDER BY CASE " +
+                    "WHEN orderstatus='Pending' THEN 1 " +
+                    "WHEN orderstatus='Being Prepared' THEN 2 " +
+                    "WHEN orderstatus='Ready' THEN 3 " +
+                    "ELSE 4 " +
+                    "END, dt ASC";
             PreparedStatement stmt = conn.prepareStatement(query);
-            stmt.setInt(1, userId);
             ResultSet rs = stmt.executeQuery();
 
             while (rs.next()) {
@@ -88,7 +96,7 @@ public class OrderHistoryForm extends JPanel {
                 List<Integer> itemIds = getItemIds(orderId, conn);
                 List<Integer> quantities = getItemQuantities(orderId, conn);
 
-                OrderPanel orderPanel = new OrderPanel(userId, date, orderStatus, orderPrice, itemIds, quantities, scrollPane, orderId,"student");
+                OrderPanel orderPanel = new OrderPanel(1, date, orderStatus, orderPrice, itemIds, quantities, scrollPane, orderId, "chef");
                 contentPanel.add(orderPanel, "grow, wrap");
             }
 

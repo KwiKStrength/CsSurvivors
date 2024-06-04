@@ -30,25 +30,28 @@ import java.util.List;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.itextpdf.layout.properties.TextAlignment;
 import net.miginfocom.swing.MigLayout;
+
 public class OrderDetails extends JPanel {
 
     public OrderDetails(String ORDERID, List<Integer> ITEMIDList, List<Integer> quantityList, int USERID, Date dt, float orderprice, String orderstatus) {
-        setLayout(new MigLayout("fillx, insets 15", "[grow][grow]push[]", "[][][]"));
+        setLayout(new BorderLayout());
+        JPanel contentPanel = new JPanel(new MigLayout("fillx, insets 15", "[left]push[right]", "[]10[]10[]20[][]20[]"));
+
         setBorder(new RoundBorder(15));
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String dateString = sdf.format(dt);
 
         JLabel titleLabel = new JLabel(ORDERID);
         titleLabel.putClientProperty(FlatClientProperties.STYLE, "font:bold +18");
-        add(titleLabel, "wrap");
+        contentPanel.add(titleLabel, "span, wrap");
 
         JLabel statusLabel = new JLabel(orderstatus);
         statusLabel.putClientProperty(FlatClientProperties.STYLE, "font:italic +13");
-        add(statusLabel, "wrap");
+        contentPanel.add(statusLabel, "span, wrap");
 
         JLabel dateLabel = new JLabel(dateString);
         dateLabel.putClientProperty(FlatClientProperties.STYLE, "font:plain +13");
-        add(dateLabel, "wrap");
+        contentPanel.add(dateLabel, "span, wrap");
 
         try {
             Connection conn = Connexion.etablirConnexion();
@@ -63,7 +66,7 @@ public class OrderDetails extends JPanel {
                     String itemDescription = quantity + "x " + itemName;
                     JLabel itemLabel = new JLabel(itemDescription);
                     itemLabel.putClientProperty(FlatClientProperties.STYLE, "font:bold +12");
-                    add(itemLabel, "wrap, gapbottom 5");
+                    contentPanel.add(itemLabel, "span, wrap");
                 }
                 rs.close();
             }
@@ -73,13 +76,15 @@ public class OrderDetails extends JPanel {
             e.printStackTrace();
         }
 
-        JLabel totalLabel = new JLabel("TOTAL");
-        totalLabel.putClientProperty(FlatClientProperties.STYLE, "font:bold +13");
-        add(totalLabel, "split,aligny bottom");
+        JPanel bottomPanel = new JPanel(new BorderLayout());
 
-        JLabel totalPriceLabel = new JLabel(Float.toString(orderprice)+" DH");
+        JLabel totalLabel = new JLabel("TOTAL PRICE : ");
+        totalLabel.putClientProperty(FlatClientProperties.STYLE, "font:bold +13");
+        bottomPanel.add(totalLabel, BorderLayout.WEST);
+
+        JLabel totalPriceLabel = new JLabel(Float.toString(orderprice) + " DH");
         totalPriceLabel.putClientProperty(FlatClientProperties.STYLE, "font:plain +13");
-        add(totalPriceLabel,"aligny bottom");
+        bottomPanel.add(totalPriceLabel, BorderLayout.CENTER);
 
         JButton generatePdfButton = new JButton("Generate PDF");
         generatePdfButton.putClientProperty(FlatClientProperties.STYLE, "font:bold +10");
@@ -89,7 +94,10 @@ public class OrderDetails extends JPanel {
                 generatePDF(ORDERID, orderstatus, dateString, ITEMIDList, quantityList, orderprice);
             }
         });
-        add(generatePdfButton,"alignx right");
+        bottomPanel.add(generatePdfButton, BorderLayout.EAST);
+
+        add(contentPanel, BorderLayout.CENTER);
+        add(bottomPanel, BorderLayout.SOUTH);
     }
 
     private void generatePDF(String ORDERID, String orderstatus, String dateString, List<Integer> ITEMIDList, List<Integer> quantityList, float orderprice) {
@@ -115,7 +123,7 @@ public class OrderDetails extends JPanel {
                 Document document = new Document(pdf, PageSize.A4);
 
                 pdf.getCatalog().setLang(new PdfString("en-US"));
-                pdf.getDocumentInfo().setTitle(ORDERID +"Details");
+                pdf.getDocumentInfo().setTitle(ORDERID + " Details");
                 pdf.getDocumentInfo().setAuthor("CAMPUS GRILL");
 
                 document.add(new LineSeparator(new DottedLine()));
@@ -142,8 +150,8 @@ public class OrderDetails extends JPanel {
 
                 PageSize pageSize = PageSize.A4;
                 float totalPriceY = pageSize.getBottom() + 36;
-                Paragraph totalPriceParagraph = new Paragraph("Total Price: " + orderprice +" DH").setFontSize(24).setBold();
-                totalPriceParagraph.setFixedPosition(0, totalPriceY+50, pageSize.getWidth());
+                Paragraph totalPriceParagraph = new Paragraph("Total Price: " + orderprice + " DH").setFontSize(24).setBold();
+                totalPriceParagraph.setFixedPosition(0, totalPriceY + 50, pageSize.getWidth());
                 totalPriceParagraph.setTextAlignment(TextAlignment.RIGHT);
                 document.add(new LineSeparator(new DottedLine()).setFixedPosition(0, totalPriceY, pageSize.getWidth() - 72));
                 document.add(totalPriceParagraph);
@@ -179,5 +187,4 @@ public class OrderDetails extends JPanel {
             return insets;
         }
     }
-
 }

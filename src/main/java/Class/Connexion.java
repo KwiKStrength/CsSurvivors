@@ -7,9 +7,9 @@ import java.sql.SQLException;
 
 public class Connexion {
 
-    private static final String SERVER = "jdbc:mysql://sql.freedb.tech:3306/freedb_tables?allowPublicKeyRetrieval=true&useSSL=false";
-    private static final String UTILISATEUR = "freedb_id22109572_cssurvivors";
-    private static final String MOT_DE_PASSE = "3FjH5z4mpV!ap@#";
+    private static final String SERVER = "jdbc:mysql://localhost:3306/Restaurant";
+    private static final String UTILISATEUR = "root";
+    private static final String MOT_DE_PASSE = "";
 
     public static Connection etablirConnexion() {
         Connection connexion = null;

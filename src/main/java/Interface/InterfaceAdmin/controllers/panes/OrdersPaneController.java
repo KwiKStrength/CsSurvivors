@@ -87,7 +87,7 @@ public class OrdersPaneController implements Initializable {
 
             statusComboBox.setFloatingText("Status");
             statusComboBox.setText(order.getOrderStatus());
-            statusComboBox.getItems().addAll("Pending", "Being Prepared", "Delivered");
+            statusComboBox.getItems().addAll("Pending", "Being Prepared", "Ready", "Delivered");
             statusComboBox.setValue(order.getOrderStatus()); // Set current status
             statusComboBox.setPrefWidth(100);  // Ensure the width accommodates the text
             statusComboBox.setOnAction(e -> {
