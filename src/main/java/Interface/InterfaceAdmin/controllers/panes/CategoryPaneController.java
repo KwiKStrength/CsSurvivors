@@ -72,7 +72,7 @@ public class CategoryPaneController implements Initializable {
 
     private HBox createHeaders() {
         HBox headers = new HBox();
-        headers.getChildren().addAll(createCellLabel("Category ID"), createCellLabel("Category Name"), createCellLabel("Image"), createCellLabel("Actions"));
+//        headers.getChildren().addAll(createCellLabel("Category ID"), createCellLabel("Category Name"), createCellLabel("Image"), createCellLabel("Actions"));
         return headers;
     }
 

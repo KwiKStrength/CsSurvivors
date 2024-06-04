@@ -21,7 +21,7 @@ module CsSurvivors {
     requires MaterialFX;
     requires java.sql.rowset;
     requires java.prefs;
-    requires barcodes;
+//    requires barcodes;
     requires itextpdf;
 
     exports Interface.InterfaceAdmin.interfaces;

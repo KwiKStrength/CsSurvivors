@@ -17,9 +17,12 @@
           AnchorPane.bottomAnchor="0.0">
         <!-- Table Header -->
         <HBox style="-fx-background-color: lightgray;">
-            <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="170" >Product ID</Label>
-            <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="170">Product Name</Label>
-            <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="170">Image</Label>
+            <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="100" >Product ID</Label>
+            <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="120">Product Name</Label>
+            <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="120">Image</Label>
+            <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="100">Price</Label>
+            <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="110">Description</Label>
+            <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="100">Action</Label>
 
         </HBox>
 

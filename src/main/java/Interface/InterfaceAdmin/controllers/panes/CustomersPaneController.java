@@ -57,13 +57,13 @@ public class CustomersPaneController implements Initializable {
     private void setupTable() {
         tableContent.getChildren().clear(); // Clear the table content first
         HBox headers = new HBox();
-        headers.getChildren().addAll(
-                createHeaderLabel("UserID"),
-                createHeaderLabel("Username"),
-                createHeaderLabel("Email"),
-                createHeaderLabel("Role"),
-                createHeaderLabel("Edit")
-        );
+//        headers.getChildren().addAll(
+//                createHeaderLabel("UserID"),
+//                createHeaderLabel("Username"),
+//                createHeaderLabel("Email"),
+//                createHeaderLabel("Role"),
+//                createHeaderLabel("Edit")
+//        );
         tableContent.getChildren().add(headers);
 
         for (Customers user : users) {

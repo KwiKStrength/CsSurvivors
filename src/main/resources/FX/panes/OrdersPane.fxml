@@ -10,14 +10,14 @@
                 fitToWidth="true">
         <VBox>
             <!-- Table Header -->
-            <HBox style="-fx-background-color: lightgray;">
-                <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="170">Order ID</Label>
-                <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="170">Date</Label>
-                <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="170">Customer Name</Label>
-                <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="170">Location</Label>
-                <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="170">Amount</Label>
-                <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="170">Status Order</Label>
-            </HBox>
+<!--            <HBox style="-fx-background-color: lightgray;">-->
+<!--                <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="170">Order ID</Label>-->
+<!--                <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="170">Date</Label>-->
+<!--                <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="170">Customer Name</Label>-->
+<!--                <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="170">Location</Label>-->
+<!--                <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="170">Amount</Label>-->
+<!--                <Label style="-fx-padding: 5px;" HBox.hgrow="ALWAYS" prefWidth="170">Status Order</Label>-->
+<!--            </HBox>-->
 
             <!-- Table Content (Populated Dynamically) -->
             <VBox stylesheets="@../../FX/css/Buttons.css" fx:id="tableContent" VBox.vgrow="ALWAYS"/>
