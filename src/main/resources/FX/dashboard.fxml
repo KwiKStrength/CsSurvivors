@@ -1,67 +1,63 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<!--<StackPane fx:id="stackPane" layoutX="165.0" prefHeight="567.0" prefWidth="1000.0">-->
-<!--</StackPane>-->
-
-<?import io.github.palexdev.materialfx.controls.*?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import javafx.scene.control.SplitPane?>
 <?import javafx.scene.image.Image?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.*?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.layout.VBox?>
 <?import javafx.scene.shape.Circle?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
-<Pane prefHeight="1216.0" prefWidth="1208.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1"
-      fx:controller="Interface.InterfaceAdmin.controllers.DashboardController">
+
+<?import javafx.scene.layout.HBox?>
+<Pane prefHeight="1216.0" prefWidth="1208.0" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interface.InterfaceAdmin.controllers.DashboardController">
     <children>
         <SplitPane dividerPositions="0.10097719869706842">
             <items>
-                <VBox prefHeight="1213.0" prefWidth="162.0" style="-fx-background-color: white;"
-                      stylesheets="@../FX/css/Buttons.css">
+                <VBox prefHeight="1213.0" prefWidth="162.0" style="-fx-background-color: white;" stylesheets="@../FX/css/Buttons.css">
                     <children>
                         <ImageView fitHeight="84.0" fitWidth="162.0" pickOnBounds="true" preserveRatio="true">
                             <image>
-                                <Image url="@../Image/AdminInterface/riyad-gold.png"/>
+                                <Image url="@../Image/Logo.png" />
                             </image>
                         </ImageView>
-                        <MFXButton onAction="#loadUserDashboardPane" prefHeight="49.0" prefWidth="162.0"
-                                   stylesheets="@../FX/css/Buttons.css" text="Dasboard"/>
-<!--                        <MFXButton prefHeight="49.0" prefWidth="162.0" stylesheets="@../../../css/Buttons.css"-->
-                        <!--                                   text="Menus"/>-->
-                        <MFXButton onAction="#loadAllCustomersPane" prefHeight="49.0" prefWidth="162.0"
-                                   text="Customers"/>
-                        <MFXButton onAction="#loadOrdersPane" prefHeight="49.0" prefWidth="162.0" text="Orders"/>
-                        <MFXButton onAction="#loadProductPane" prefHeight="49.0" prefWidth="162.0" text="Product"/>
-                        <MFXButton onAction="#loadCategoryPane" prefHeight="49.0" prefWidth="162.0" text="Category"/>
-                        <MFXButton onAction="#loadAddProductPane" prefHeight="49.0" prefWidth="162.0"
-                                   text="Add Product / Category"/>
-                        <MFXButton onAction="#loadUserProfilePane" prefHeight="49.0" prefWidth="162.0" text="Profile"/>
-
+                        <MFXButton onAction="#loadUserDashboardPane" prefHeight="49.0" prefWidth="162.0" stylesheets="@../FX/css/Buttons.css" text="Dashboard" />
+                        <MFXButton onAction="#loadAllCustomersPane" prefHeight="49.0" prefWidth="162.0" text="Customers" />
+                        <MFXButton onAction="#loadOrdersPane" prefHeight="49.0" prefWidth="162.0" text="Orders" />
+                        <MFXButton onAction="#loadProductPane" prefHeight="49.0" prefWidth="162.0" text="Product" />
+                        <MFXButton onAction="#loadCategoryPane" prefHeight="49.0" prefWidth="162.0" text="Category" />
+                        <MFXButton onAction="#loadAddProductPane" prefHeight="49.0" prefWidth="162.0" text="Add Product / Category" />
+                        <MFXButton onAction="#loadUserProfilePane" prefHeight="49.0" prefWidth="162.0" text="Profile" />
+                        <MFXButton onAction="#handleLogout" prefHeight="49.0" prefWidth="162.0" text="Logout" style="-fx-graphic: url('Image/logout.png'); -fx-alignment: CENTER_LEFT;" />
                     </children>
                 </VBox>
-                <SplitPane id="splitPaneId" dividerPositions="0.04642857142857143" orientation="VERTICAL"
-                           prefHeight="1213.0" prefWidth="1037.0" style="-fx-background-color: white;">
+                <SplitPane fx:id="splitPaneId" dividerPositions="0.04642857142857143" orientation="VERTICAL" prefHeight="1213.0" prefWidth="1037.0" style="-fx-background-color: white;">
                     <items>
                         <AnchorPane maxHeight="-Infinity" minHeight="-Infinity" prefHeight="60.0" prefWidth="944.0">
                             <children>
-                                <Circle fx:id="userProfile" fill="#001528" layoutX="973.0" layoutY="30.0" radius="26.0"
-                                        stroke="BLACK" strokeType="INSIDE"/>
-                                <Text layoutX="897.0" layoutY="36.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Ryad"
-                                      wrappingWidth="132.3590087890625">
-                                    <font>
-                                        <Font name="System Bold" size="18.0"/>
-                                    </font>
-                                </Text>
+                                <HBox alignment="CENTER_RIGHT" prefHeight="60.0" prefWidth="944.0">
+                                    <Text strokeType="OUTSIDE" strokeWidth="0.0" text="Admin" wrappingWidth="132.3590087890625">
+                                        <font>
+                                            <Font name="System Bold" size="18.0" />
+                                        </font>
+                                    </Text>
+                                    <ImageView fitHeight="50.0" fitWidth="50.0" pickOnBounds="true" preserveRatio="true">
+                                        <image>
+                                            <Image url="@../Image/AdminInterface/userprofile.png" />
+                                        </image>
+                                    </ImageView>
+                                </HBox>
                             </children>
                         </AnchorPane>
-                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="1154.0" prefWidth="928.0">
+                        <AnchorPane fx:id="userPane" minHeight="0.0" minWidth="0.0" prefHeight="1154.0" prefWidth="928.0">
                             <StackPane fx:id="stackPane" layoutX="1.0">
-
                             </StackPane>
                         </AnchorPane>
                     </items>
                 </SplitPane>
-
 
             </items>
         </SplitPane>

@@ -13,30 +13,31 @@ import javafx.stage.StageStyle;
 
 public class Dashboard extends Application {
 
+    private static int userID;
+
     public static void main(String[] args) {
         launch(args);
     }
 
-    public static void launchDashboard() {
+    public static void launchDashboard(int userID) {
+        Dashboard.userID = userID;
         Application.launch(Dashboard.class);
     }
 
     @Override
     public void start(Stage primaryStage) throws Exception {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/FX/dashboard.fxml"));
-        Parent root = loader.load(); // Load the FXML file first
-        DashboardController controller = loader.getController(); // Get the controller instance
-
-        // Call the initialize method if needed
-        // controller.initialize();
+        Parent root = loader.load();
+        DashboardController controller = loader.getController();
+        controller.setUserID(userID);
 
         primaryStage.initStyle(StageStyle.UNDECORATED);
-        primaryStage.setTitle("dashboard");
+        primaryStage.setTitle("Dashboard");
         primaryStage.setScene(new Scene(root, 1200, 600));
         primaryStage.setResizable(false);
         primaryStage.show();
-
     }
+
     @Override
     public void init() throws Exception {
         super.init();

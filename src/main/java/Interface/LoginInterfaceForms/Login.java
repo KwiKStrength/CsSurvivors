@@ -6,8 +6,6 @@ import Interface.InterfaceUser.MenuInterface;
 import Interface.LoginInterface;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.util.UIScale;
-import javafx.application.Application;
-import javafx.application.Platform;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.*;
 import java.awt.*;
@@ -24,14 +22,13 @@ import java.sql.SQLException;
 
 public class Login extends JPanel {
 
-    LoginInterface loginInterface;
-    MenuInterface app;
-    int USERID;
-    String role;
+    private LoginInterface loginInterface;
+    private MenuInterface app;
+    private int USERID;
+    private String role;
 
     public Login(LoginInterface loginInterface, LoginInterface.Overlay.PanelOverlay parentOverlay) {
         this.loginInterface = loginInterface;
-
         init();
     }
 
@@ -85,26 +82,22 @@ public class Login extends JPanel {
                     statement.setString(1, username);
                     statement.setString(2, hashedPassword);
                     ResultSet resultSet = statement.executeQuery();
-                    
-                    
+
                     if (resultSet.next()) {
                         role = resultSet.getString("role");
-                        if(role.equals("student")) {
+                        USERID = resultSet.getInt("USERID");
+
+                        if (role.equals("student")) {
                             loginInterface.setVisible(false);
-                            try {
-                                USERID = resultSet.getInt("USERID");
-                                app = new MenuInterface(USERID, loginInterface);
-                                txtUsername.setText("");
-                                txtPassword.setText("");
-                                app.setVisible(true);
-                            } catch (SQLException ex) {
-                                JOptionPane.showMessageDialog(null, "Error retrieving USERID: " + ex.getMessage());
-                            }
+                            app = new MenuInterface(USERID, loginInterface);
+                            txtUsername.setText("");
+                            txtPassword.setText("");
+                            app.setVisible(true);
                         } else if (role.equals("admin")) {
                             loginInterface.setVisible(false);
-                            Dashboard.launchDashboard();
+                            Dashboard.launchDashboard(USERID);
                         } else if (role.equals("chef")) {
-                            
+                            // Implement chef logic here
                         }
                     } else {
                         JOptionPane.showMessageDialog(null, "Wrong Informations");
@@ -113,10 +106,8 @@ public class Login extends JPanel {
                 } catch (SQLException | NoSuchAlgorithmException ex) {
                     JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
                 }
-                    
             }
         };
-
 
         cmdLogin.addActionListener(loginAction);
     }
@@ -142,6 +133,4 @@ public class Login extends JPanel {
         }
         return stringBuilder.toString();
     }
-
-
 }
