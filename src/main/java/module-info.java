@@ -20,6 +20,9 @@ module CsSurvivors {
     requires com.dlsc.formsfx;
     requires MaterialFX;
     requires java.sql.rowset;
+    requires java.prefs;
+    requires barcodes;
+    requires itextpdf;
 
     exports Interface.InterfaceAdmin.interfaces;
     opens Interface.InterfaceAdmin.interfaces to javafx.fxml;

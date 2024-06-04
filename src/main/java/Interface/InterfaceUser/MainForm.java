@@ -79,6 +79,14 @@ public class MainForm extends JLayeredPane {
                 if (subIndex == 1) {
                     MenuInterface.showForm(new PendingOrderForm(userID));
                 }
+                if(subIndex == 2){
+                    MenuInterface.showForm(new OrderHistoryForm(userID));
+                }
+            }
+            if (index == 3){
+                SwingUtilities.invokeLater(() -> {
+                    new SettingsWindow(userID).setVisible(true);
+                });
             }
             if (index == 4) {
                 login.setVisible(true);

@@ -93,7 +93,6 @@ public class ItemPanel extends JPanel {
 
     private void addToCart(int user, int item) {
         try {
-            System.out.println("Adding item to cart: UserID=" + user + ", ItemID=" + item);
             Connection connection = Connexion.etablirConnexion();
             PreparedStatement statement = connection.prepareStatement("SELECT * FROM CARTITEM WHERE ITEMID = ? AND USERID = ?");
             statement.setInt(1, item);
@@ -101,20 +100,16 @@ public class ItemPanel extends JPanel {
             ResultSet resultSet = statement.executeQuery();
             if (resultSet.next()) {
                 int quantity = resultSet.getInt("QUANTITY") + 1;
-                System.out.println("Item already exists in cart. Updating quantity to: " + quantity);
                 PreparedStatement updateStatement = connection.prepareStatement("UPDATE CARTITEM SET QUANTITY = ? WHERE ITEMID = ? AND USERID = ?");
                 updateStatement.setInt(1, quantity);
                 updateStatement.setInt(2, item);
                 updateStatement.setInt(3, user);
                 updateStatement.executeUpdate();
-                System.out.println("Quantity updated successfully.");
             } else {
-                System.out.println("Item not found in cart. Adding new item.");
                 PreparedStatement insertStatement = connection.prepareStatement("INSERT INTO CARTITEM (ITEMID, USERID, QUANTITY) VALUES (?, ?, 1)");
                 insertStatement.setInt(1, item);
                 insertStatement.setInt(2, user);
                 insertStatement.executeUpdate();
-                System.out.println("New item added to cart.");
             }
             connection.close();
         } catch (SQLException ex) {

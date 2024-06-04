@@ -33,7 +33,7 @@ import net.miginfocom.swing.MigLayout;
 public class OrderDetails extends JPanel {
 
     public OrderDetails(String ORDERID, List<Integer> ITEMIDList, List<Integer> quantityList, int USERID, Date dt, float orderprice, String orderstatus) {
-        setLayout(new MigLayout("fill","[fill,grow][fill,grow][]","[]5[]5[]30[]push[]"));
+        setLayout(new MigLayout("fillx, insets 15", "[grow][grow]push[]", "[][][]"));
         setBorder(new RoundBorder(15));
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");
         String dateString = sdf.format(dt);
