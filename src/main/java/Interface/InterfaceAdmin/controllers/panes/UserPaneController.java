@@ -41,8 +41,8 @@ public class UserPaneController implements Initializable {
                 String role = resultSet.getString("role");
 
                 // Update the labels
-                nameLabel.setText("Username: " + username); // Assuming username is the name
-                surnameLabel.setText(""); // Assuming no separate surname column
+                nameLabel.setText("Username: " + username);
+                surnameLabel.setText("");
                 emailLabel.setText("Email: " + email);
                 roleLabel.setText("Role: " + role);
             }
