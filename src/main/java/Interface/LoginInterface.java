@@ -6,6 +6,8 @@ import Interface.LoginInterfaceForms.Register;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.fonts.inter.FlatInterFont;
 import com.formdev.flatlaf.themes.FlatMacDarkLaf;
+import com.formdev.flatlaf.themes.FlatMacLightLaf;
+import com.formdev.flatlaf.FlatDarculaLaf;
 import com.formdev.flatlaf.util.Animator;
 import com.formdev.flatlaf.util.CubicBezierEasing;
 import com.formdev.flatlaf.util.UIScale;
@@ -14,6 +16,7 @@ import uk.co.caprica.vlcj.factory.MediaPlayerFactory;
 import uk.co.caprica.vlcj.player.embedded.EmbeddedMediaPlayer;
 
 import javax.imageio.ImageIO;
+import javax.management.relation.Relation;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.MouseAdapter;
@@ -26,7 +29,7 @@ import java.io.IOException;
 
 public class LoginInterface extends JFrame {
 
-    private Background background;
+    Background background;
     private LoginInterface loginInterface;
 
     public LoginInterface(){
@@ -45,6 +48,7 @@ public class LoginInterface extends JFrame {
     }
 
     public static void main(String[] args) {
+        //vlc on mac
         System.setProperty("jna.library.path", "/Applications/VLC.app/Contents/MacOS/lib");
         FlatInterFont.install();
         FlatMacDarkLaf.setup();
@@ -93,7 +97,9 @@ public class LoginInterface extends JFrame {
             if(mediaPlayer.status().isPlaying()){
                 mediaPlayer.controls().stop();
             }
-            mediaPlayer.media().play("/Video/BackgroundLogin.mp4");
+            //version mac
+            //mediaPlayer.media().play("Video/BackgroundLogin.mp4");
+            mediaPlayer.media().play("Video/BackgroundLogin.mp4");
         }
         public void pause(){
             mediaPlayer.release();
@@ -191,6 +197,8 @@ public class LoginInterface extends JFrame {
                 BufferedImage logoImage = null;
                 try {
                     logoImage = ImageIO.read(new File("src/main/resources/Image/Logo.png"));
+                    //version mac
+                    //logoImage = ImageIO.read(new File("Image/Logo.png"));
                     int width = 128;
                     int height = 128;
                     BufferedImage scaledImage = new BufferedImage(width, height, BufferedImage.TYPE_INT_ARGB);
@@ -206,30 +214,32 @@ public class LoginInterface extends JFrame {
                 }
             }
 
+
+
             private void loginButton(){
-                loginPanel = new Login(this.loginInterface, parentOverlay);
-                add(loginPanel, "pos 100% 0.5al, w 350");
+                loginPanel = new Login(this.loginInterface,parentOverlay);
+                add(loginPanel, "pos 100% 0.5al,w 350");
             }
 
             private void registerButton(){
                 registerPanel = new Register(parentOverlay);
-                add(registerPanel, "pos 100% 0.5al, w 350");
+                add(registerPanel, "pos 100% 0.5al,w 350");
             }
 
             private void information(){
-                information = new JPanel(new MigLayout("wrap", "", "[]30[]"));
+                information = new JPanel(new MigLayout("wrap","","[]30[]"));
                 information.setOpaque(false);
                 JLabel bigTitle = new JLabel("Campus grill !");
-                bigTitle.putClientProperty(FlatClientProperties.STYLE, "" + "font:bold +40");
+                bigTitle.putClientProperty(FlatClientProperties.STYLE,""+"font:bold +40");
                 JLabel description = new JLabel("Notre Application !");
-                description.putClientProperty(FlatClientProperties.STYLE, "" + "Font:bold +3");
+                description.putClientProperty(FlatClientProperties.STYLE,""+"Font:bold +3");
                 information.add(bigTitle);
                 information.add(description);
-                add(information, "width 40%");
+                add(information,"width 40%");
             }
 
             private void header(){
-                header = new JPanel(new MigLayout("fill", "push[][][]"));
+                header = new JPanel(new MigLayout("fill","push[][][]"));
                 header.setOpaque(false);
                 LoginHeaderButton HomeMenu = new LoginHeaderButton("Home");
                 LoginHeaderButton LoginMenu = new LoginHeaderButton("Login");
@@ -254,7 +264,7 @@ public class LoginInterface extends JFrame {
                 header.add(HomeMenu);
                 header.add(LoginMenu);
                 header.add(RegisterMenu);
-                add(header, "wrap");
+                add(header,"wrap");
             }
 
             private void runLoginAnimation(boolean show) {
@@ -274,6 +284,7 @@ public class LoginInterface extends JFrame {
                     }
                 }
             }
+
 
         }
     }

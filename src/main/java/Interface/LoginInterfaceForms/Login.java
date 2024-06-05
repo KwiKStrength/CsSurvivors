@@ -2,13 +2,10 @@ package Interface.LoginInterfaceForms;
 
 import Class.Connexion;
 import Interface.InterfaceAdmin.interfaces.Dashboard;
-import Interface.InterfaceChef.OrderList;
 import Interface.InterfaceUser.MenuInterface;
 import Interface.LoginInterface;
 import com.formdev.flatlaf.FlatClientProperties;
 import com.formdev.flatlaf.util.UIScale;
-import javafx.application.Application;
-import javafx.application.Platform;
 import net.miginfocom.swing.MigLayout;
 import javax.swing.*;
 import java.awt.*;
@@ -22,20 +19,16 @@ import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.util.prefs.Preferences;
 
 public class Login extends JPanel {
 
-    LoginInterface loginInterface;
-    MenuInterface app;
-    int USERID;
-    String role;
-    Preferences preferences;
+    private LoginInterface loginInterface;
+    private MenuInterface app;
+    private int USERID;
+    private String role;
 
     public Login(LoginInterface loginInterface, LoginInterface.Overlay.PanelOverlay parentOverlay) {
         this.loginInterface = loginInterface;
-        this.preferences = Preferences.userRoot().node(this.getClass().getName());
-
         init();
     }
 
@@ -68,11 +61,6 @@ public class Login extends JPanel {
         txtUsername.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your Username");
         txtPassword.putClientProperty(FlatClientProperties.PLACEHOLDER_TEXT, "Enter your Password");
 
-        // Load saved username and password
-        txtUsername.setText(preferences.get("username", ""));
-        txtPassword.setText(preferences.get("password", ""));
-        chRememberMe.setSelected(preferences.getBoolean("rememberMe", false));
-
         add(title);
         add(new JLabel("Username"), "gapy 20");
         add(txtUsername);
@@ -97,43 +85,20 @@ public class Login extends JPanel {
 
                     if (resultSet.next()) {
                         role = resultSet.getString("role");
+                        USERID = resultSet.getInt("USERID");
+
                         if (role.equals("student")) {
                             loginInterface.setVisible(false);
-                            try {
-                                USERID = resultSet.getInt("USERID");
-                                app = new MenuInterface(USERID, loginInterface);
-                                txtUsername.setText("");
-                                txtPassword.setText("");
-                                app.setVisible(true);
-                            } catch (SQLException ex) {
-                                JOptionPane.showMessageDialog(null, "Error retrieving USERID: " + ex.getMessage());
-                            }
+                            app = new MenuInterface(USERID, loginInterface);
+                            txtUsername.setText("");
+                            txtPassword.setText("");
+                            app.setVisible(true);
                         } else if (role.equals("admin")) {
                             loginInterface.setVisible(false);
                             Dashboard.launchDashboard(USERID);
                         } else if (role.equals("chef")) {
-                            loginInterface.setVisible(false);
-                            JFrame frame = new JFrame("Order List");
-                            OrderList orderList = new OrderList("chef");
-                            frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-                            frame.setUndecorated(true);
-                            frame.getContentPane().add(orderList);
-                            frame.pack();
-                            frame.setResizable(false);
-                            frame.setLocationRelativeTo(null);
-                            frame.setVisible(true);
+                            // Implement chef logic here
                         }
-
-                        if (chRememberMe.isSelected()) {
-                            preferences.put("username", username);
-                            preferences.put("password", password);
-                            preferences.putBoolean("rememberMe", true);
-                        } else {
-                            preferences.remove("username");
-                            preferences.remove("password");
-                            preferences.putBoolean("rememberMe", false);
-                        }
-
                     } else {
                         JOptionPane.showMessageDialog(null, "Wrong Informations");
                     }
@@ -141,7 +106,6 @@ public class Login extends JPanel {
                 } catch (SQLException | NoSuchAlgorithmException ex) {
                     JOptionPane.showMessageDialog(null, "Error: " + ex.getMessage());
                 }
-
             }
         };
 

@@ -21,9 +21,8 @@
                 <Image url="@../../Image/AdminInterface/userprofile.png" />
             </image>
         </ImageView>
-        <Label fx:id="nameLabel" layoutX="111.0" layoutY="119.0" />
-        <Label fx:id="surnameLabel" layoutX="111.0" layoutY="151.0" />
-        <Label fx:id="emailLabel" layoutX="111.0" layoutY="181.0" />
-        <Label fx:id="roleLabel" layoutX="112.0" layoutY="214.0" />
+        <Label fx:id="nameLabel" layoutX="100.0" layoutY="100.0" text="Username: " />
+        <Label fx:id="emailLabel" layoutX="100.0" layoutY="200.0" text="Email: " />
+        <Label fx:id="roleLabel" layoutX="100.0" layoutY="250.0" text="Role: " />
     </children>
 </AnchorPane>

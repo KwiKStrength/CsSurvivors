@@ -16,8 +16,6 @@ public class UserPaneController implements Initializable {
     @FXML
     private Label nameLabel;
     @FXML
-    private Label surnameLabel;
-    @FXML
     private Label emailLabel;
     @FXML
     private Label roleLabel;
@@ -26,10 +24,12 @@ public class UserPaneController implements Initializable {
 
     public void setUserID(int userID) {
         this.userID = userID;
+        System.out.println("Setting User ID: " + userID);
         loadUserInfo(userID);
     }
 
     private void loadUserInfo(int userID) {
+        System.out.println("Loading user info for User ID: " + userID);
         try (Connection connection = Connexion.etablirConnexion()) {
             String query = "SELECT username, email, role FROM APPUSER WHERE USERID = ?";
             PreparedStatement preparedStatement = connection.prepareStatement(query);
@@ -42,9 +42,10 @@ public class UserPaneController implements Initializable {
 
                 // Update the labels
                 nameLabel.setText("Username: " + username);
-                surnameLabel.setText("");
                 emailLabel.setText("Email: " + email);
                 roleLabel.setText("Role: " + role);
+            } else {
+                System.err.println("No user found with User ID: " + userID);
             }
         } catch (SQLException e) {
             e.printStackTrace();
