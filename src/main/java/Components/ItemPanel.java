@@ -22,16 +22,16 @@ public class ItemPanel extends JPanel {
     private final int userID5;
     private final int itemID;
 
-    public ItemPanel(int id, byte[] imageBytes, String name, float price, String description, boolean pdj, int availability,int userID) {
+    public ItemPanel(int id, byte[] imageBytes, String name, float price, String description, boolean pdj, int availability, int userID) {
         this.userID5 = userID;
         this.itemID = id;
-        System.out.println(userID5+itemID);
+        System.out.println(userID5 + itemID);
 
         setLayout(null);
         setBorder(new CartPanel.RoundBorder(20));
         setPreferredSize(new Dimension(300, 420));
 
-        Image icon = createImageIcon(imageBytes);
+        Image icon = createImageIcon(imageBytes, 200, 200); // Change this line
         JLabel imageLabel = new JLabel(new ImageIcon(icon));
         imageLabel.setBounds(50, 30, 200, 200);
         imageLabel.setBorder(new CartPanel.RoundBorder(10));
@@ -39,7 +39,7 @@ public class ItemPanel extends JPanel {
 
         JLabel nameLabel = new JLabel(name);
         nameLabel.setBounds(10, 250, 290, 40);
-        nameLabel.putClientProperty(FlatClientProperties.STYLE,""+"font:bold +16");
+        nameLabel.putClientProperty(FlatClientProperties.STYLE, "font:bold +16");
         add(nameLabel);
 
         JTextArea descriptionArea = new JTextArea(description);
@@ -51,9 +51,7 @@ public class ItemPanel extends JPanel {
 
         JLabel priceLabel = new JLabel(price + " DH");
         priceLabel.setBounds(20, 370, 200, 20);
-        priceLabel.putClientProperty(FlatClientProperties.STYLE,""+
-                "foreground:#FFAC1C;"+
-                "font:bold +11;");
+        priceLabel.putClientProperty(FlatClientProperties.STYLE, "foreground:#FFAC1C;font:bold +11;");
         add(priceLabel);
 
         JButton addButton = new JButton("Add");
@@ -61,15 +59,14 @@ public class ItemPanel extends JPanel {
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                System.out.println(userID5+itemID);
-                addToCart(userID5,itemID);
+                System.out.println(userID5 + itemID);
+                addToCart(userID5, itemID);
             }
         });
         add(addButton);
-
-
     }
-    private Image createImageIcon(byte[] byteArray) {
+
+    private Image createImageIcon(byte[] byteArray, int targetWidth, int targetHeight) {
         if (byteArray == null || byteArray.length == 0) {
             return null;
         }
@@ -81,15 +78,32 @@ public class ItemPanel extends JPanel {
             if (bufferedImage == null) {
                 return null;
             }
-            ImageIcon imageIcon = new ImageIcon(bufferedImage);
-            Image image = imageIcon.getImage();
-            return image;
+
+            // Calculate the new dimensions while maintaining aspect ratio
+            int originalWidth = bufferedImage.getWidth();
+            int originalHeight = bufferedImage.getHeight();
+            float aspectRatio = (float) originalWidth / originalHeight;
+
+            int newWidth = targetWidth;
+            int newHeight = (int) (targetWidth / aspectRatio);
+            if (newHeight > targetHeight) {
+                newHeight = targetHeight;
+                newWidth = (int) (targetHeight * aspectRatio);
+            }
+
+            // Resize the image
+            Image resizedImage = bufferedImage.getScaledInstance(newWidth, newHeight, Image.SCALE_SMOOTH);
+            BufferedImage resizedBufferedImage = new BufferedImage(newWidth, newHeight, BufferedImage.TYPE_INT_ARGB);
+            Graphics2D g2d = resizedBufferedImage.createGraphics();
+            g2d.drawImage(resizedImage, 0, 0, null);
+            g2d.dispose();
+
+            return resizedBufferedImage;
         } catch (IOException e) {
             e.printStackTrace();
             return null;
         }
     }
-
 
     private void addToCart(int user, int item) {
         try {

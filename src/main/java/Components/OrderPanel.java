@@ -49,8 +49,8 @@ public class OrderPanel extends JPanel {
                     JViewport viewport = parent.getViewport();
                     viewport.setView(orderDetailsPanel);
                 } else if (role.equals("chef")) {
-                    OrderChef orderChefPanel = new OrderChef(orderID, ITEMID, quantity, dt, orderprice, orderstatus);
                     JViewport viewport = parent.getViewport();
+                    OrderChef orderChefPanel = new OrderChef(orderID, ITEMID, quantity, dt, orderprice, orderstatus,viewport);
                     viewport.setView(orderChefPanel);
                 }
             }

@@ -23,6 +23,7 @@ module CsSurvivors {
     requires java.prefs;
 //    requires barcodes;
     requires itextpdf;
+    requires barcodes;
 
     exports Interface.InterfaceAdmin.interfaces;
     opens Interface.InterfaceAdmin.interfaces to javafx.fxml;

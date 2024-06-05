@@ -26,5 +26,5 @@ public class UserPane extends AnchorPane {
 
     public void setUsername(String username) {
         usernameLabel.setText(username);
-    }
+}
 }

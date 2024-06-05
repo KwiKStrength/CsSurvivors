@@ -28,6 +28,7 @@ public class DashboardController implements Initializable {
 
     public void setUserID(int userID) {
         this.userID = userID;
+        System.out.println("User ID set to: " + userID);
         loadUserDashboardPane(); // Load the Dashboard pane by default
     }
 
@@ -37,7 +38,7 @@ public class DashboardController implements Initializable {
             Parent root = loader.load();
             UserPaneController controller = loader.getController();
             controller.setUserID(userID);
-            userPane.getChildren().setAll(root);
+            stackPane.getChildren().setAll(root);
         } catch (Exception e) {
             e.printStackTrace();
         }
@@ -52,13 +53,11 @@ public class DashboardController implements Initializable {
     private void loadUserDashboardPane() {
         loadPane("/FX/panes/DashboardPane.fxml");
     }
+
     @FXML
     private void loadUserProfilePane() {
         loadUserPane();
     }
-
-
-
 
     @FXML
     private void loadProductPane() {
@@ -95,12 +94,15 @@ public class DashboardController implements Initializable {
             e.printStackTrace(); // Handle the exception properly in your application
         }
     }
+
     @FXML
     private void handleLogout() {
-        Stage stage = (Stage) stackPane.getScene().getWindow();
-        stage.close();
-
-        SwingUtilities.invokeLater(() -> new LoginInterface().setVisible(true));
+        if (stackPane.getScene() != null) {
+            Stage stage = (Stage) stackPane.getScene().getWindow();
+            stage.close();
+            SwingUtilities.invokeLater(() -> new LoginInterface().setVisible(true));
+        } else {
+            System.err.println("Scene is null, cannot log out.");
+        }
     }
-
 }

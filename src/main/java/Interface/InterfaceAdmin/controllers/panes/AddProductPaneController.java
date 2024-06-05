@@ -108,7 +108,7 @@ public class AddProductPaneController implements Initializable {
     private void chooseFileAction() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Image File");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif","*.jpeg"));
         File selectedFile = fileChooser.showOpenDialog(new Stage());
         if (selectedFile != null) {
             selectedFileLabel.setText(selectedFile.getAbsolutePath());
@@ -122,7 +122,7 @@ public class AddProductPaneController implements Initializable {
     private void chooseCategoryImageAction() {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Category Image File");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg","*.jpeg", "*.gif"));
         File selectedFile = fileChooser.showOpenDialog(new Stage());
         if (selectedFile != null) {
 //            selectedCategoryFileLabel.setText(selectedFile.getAbsolutePath());
@@ -136,7 +136,7 @@ public class AddProductPaneController implements Initializable {
     private void addCategoryAction(ActionEvent event) {
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Select Category Image File");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg", "*.gif"));
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("Image Files", "*.png", "*.jpg","*.jpeg", "*.gif"));
         File selectedFile = fileChooser.showOpenDialog(new Stage());
 
         if (selectedFile != null) {

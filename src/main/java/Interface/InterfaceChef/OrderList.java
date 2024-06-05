@@ -1,6 +1,7 @@
 package Interface.InterfaceChef;
 
 import Components.OrderPanel;
+import Interface.LoginInterface;
 import net.miginfocom.swing.MigLayout;
 
 import javax.swing.*;
@@ -22,8 +23,10 @@ public class OrderList extends JPanel {
     private JComboBox<String> sortComboBox;
     private JComboBox<String> orderComboBox;
     private JScrollPane scrollPane;
+    private LoginInterface parents;
 
-    public OrderList(String role) {
+    public OrderList(String role, LoginInterface parent) {
+        this.parents = parent;
         setLayout(new BorderLayout());
         setPreferredSize(new Dimension(1280, 720));
         JPanel innerPanel = new JPanel(new BorderLayout());
@@ -44,16 +47,34 @@ public class OrderList extends JPanel {
         allOrdersButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                innerPanel.removeAll();
+                scrollPane = new JScrollPane(contentPanel);
+                innerPanel.add(scrollPane, BorderLayout.CENTER);
+                contentPanel.removeAll();
                 loadOrderHistory();
+                innerPanel.revalidate();
+                innerPanel.repaint();
             }
         });
 
         JButton logoutButton = new JButton("Logout");
+        logoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                logout();
+            }
+        });
 
         ActionListener sortActionListener = new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                innerPanel.removeAll();
+                scrollPane = new JScrollPane(contentPanel);
+                innerPanel.add(scrollPane, BorderLayout.CENTER);
+                contentPanel.removeAll();
                 loadOrderHistory();
+                innerPanel.revalidate();
+                innerPanel.repaint();
             }
         };
 
@@ -73,17 +94,30 @@ public class OrderList extends JPanel {
         loadOrderHistory();
     }
 
+    private void logout(){
+        JFrame frame = (JFrame) SwingUtilities.getWindowAncestor(this);
+        frame.dispose();
+        parents.setVisible(true);
+    }
     private void loadOrderHistory() {
-        contentPanel.removeAll();
 
         try {
             Connection conn = Connexion.etablirConnexion();
+            String sortBy = sortComboBox.getSelectedItem().toString().toLowerCase();
+            String order = orderComboBox.getSelectedItem().toString();
+
+            if (sortBy.equals("date")){
+                sortBy = "dt";
+            } else {
+                sortBy = "orderprice";
+            }
+
             String query = "SELECT * FROM ORDER_TABLE ORDER BY CASE " +
                     "WHEN orderstatus='Pending' THEN 1 " +
                     "WHEN orderstatus='Being Prepared' THEN 2 " +
                     "WHEN orderstatus='Ready' THEN 3 " +
                     "ELSE 4 " +
-                    "END, dt ASC";
+                    "END, " + sortBy + " " + order;
             PreparedStatement stmt = conn.prepareStatement(query);
             ResultSet rs = stmt.executeQuery();
 
@@ -106,9 +140,6 @@ public class OrderList extends JPanel {
         } catch (SQLException e) {
             e.printStackTrace();
         }
-
-        contentPanel.revalidate();
-        contentPanel.repaint();
     }
 
     private List<Integer> getItemIds(String orderId, Connection conn) throws SQLException {

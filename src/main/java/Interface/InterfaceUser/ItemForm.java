@@ -22,13 +22,13 @@ public class ItemForm extends JScrollPane {
     private List<ItemPanel> pdjItems;
     private List<ItemPanel> nonPdjItems;
 
-    public ItemForm(int id,int userID) {
+    public ItemForm(int id, int userID) {
         super();
         FlatInterFont.install();
         pdjItems = new ArrayList<>();
         nonPdjItems = new ArrayList<>();
 
-        fItems(id,userID);
+        fItems(id, userID);
         setupLayout();
     }
 
@@ -46,7 +46,7 @@ public class ItemForm extends JScrollPane {
                 boolean pdj = resultSet.getBoolean("pdj");
                 int availability = resultSet.getInt("availability");
 
-                ItemPanel itemPanel = new ItemPanel(itemId, imageBytes, name, price, description, pdj, availability,userID);
+                ItemPanel itemPanel = new ItemPanel(itemId, imageBytes, name, price, description, pdj, availability, userID);
                 if (pdj) {
                     pdjItems.add(itemPanel);
                 } else {
@@ -59,24 +59,31 @@ public class ItemForm extends JScrollPane {
     }
 
     private void setupLayout() {
-        JPanel contentPanel = new JPanel(new MigLayout("wrap 1","[grow,fill]","10[]5[]10[]5[]"));
+        JPanel contentPanel = new JPanel(new MigLayout("wrap 1", "[grow]", "10[]5[]10[]5[]"));
         contentPanel.setBorder(new CartPanel.RoundBorder(10));
-        if (!pdjItems.isEmpty()) {
-            JLabel titleLabel = new JLabel("Plats du jour");
-            titleLabel.putClientProperty(FlatClientProperties.STYLE,""+"font:bold +16");
-            contentPanel.add(titleLabel, "wrap");
 
-            JScrollPane pdjScrollPane = createHorizontalScrollPane(pdjItems);
-            contentPanel.add(pdjScrollPane, "wrap");
-        }
+        if (pdjItems.isEmpty() && nonPdjItems.isEmpty()) {
+            JLabel emptyLabel = new JLabel("Empty Category");
+            emptyLabel.putClientProperty(FlatClientProperties.STYLE, "font:bold +16");
+            contentPanel.add(emptyLabel, "wrap, growx, align center");
+        } else {
+            if (!pdjItems.isEmpty()) {
+                JLabel titleLabel = new JLabel("Plats du jour");
+                titleLabel.putClientProperty(FlatClientProperties.STYLE, "font:bold +16");
+                contentPanel.add(titleLabel, "wrap");
 
-        if (!nonPdjItems.isEmpty()) {
-            JLabel titleLabel = new JLabel("Plat");
-            titleLabel.putClientProperty(FlatClientProperties.STYLE,""+"font:bold +16");
-            contentPanel.add(titleLabel, "wrap,growx");
+                JScrollPane pdjScrollPane = createHorizontalScrollPane(pdjItems);
+                contentPanel.add(pdjScrollPane, "wrap");
+            }
 
-            JScrollPane nonPdjScrollPane = createVerticalScrollPane(nonPdjItems);
-            contentPanel.add(nonPdjScrollPane, "wrap,growx");
+            if (!nonPdjItems.isEmpty()) {
+                JLabel titleLabel = new JLabel("Plat");
+                titleLabel.putClientProperty(FlatClientProperties.STYLE, "font:bold +16");
+                contentPanel.add(titleLabel, "wrap,growx");
+
+                JScrollPane nonPdjScrollPane = createVerticalScrollPane(nonPdjItems);
+                contentPanel.add(nonPdjScrollPane, "growx");
+            }
         }
 
         setViewportView(contentPanel);
@@ -85,7 +92,7 @@ public class ItemForm extends JScrollPane {
     }
 
     private JScrollPane createHorizontalScrollPane(List<ItemPanel> items) {
-        JPanel panel = new JPanel(new MigLayout("wrap"));
+        JPanel panel = new JPanel(new MigLayout("fillx, flowx", "[]", "[]"));
         for (ItemPanel itemPanel : items) {
             panel.add(itemPanel);
         }
@@ -96,9 +103,9 @@ public class ItemForm extends JScrollPane {
     }
 
     private JScrollPane createVerticalScrollPane(List<ItemPanel> items) {
-        JPanel panel = new JPanel(new MigLayout("wrap 1"));
+        JPanel panel = new JPanel(new MigLayout("wrap 3", "[]", "[]"));
         for (ItemPanel itemPanel : items) {
-            panel.add(itemPanel, "wrap");
+            panel.add(itemPanel);
         }
         JScrollPane scrollPane = new RoundScrollPane(panel, 15);
         scrollPane.setHorizontalScrollBarPolicy(JScrollPane.HORIZONTAL_SCROLLBAR_NEVER);
@@ -136,7 +143,4 @@ public class ItemForm extends JScrollPane {
         public void setBorder(Border border) {
         }
     }
-
-
 }
-

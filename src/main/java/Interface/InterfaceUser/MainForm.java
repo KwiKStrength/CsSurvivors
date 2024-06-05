@@ -85,7 +85,7 @@ public class MainForm extends JLayeredPane {
             }
             if (index == 3){
                 SwingUtilities.invokeLater(() -> {
-                   // new SettingsWindow(userID).setVisible(true);
+                   new SettingsWindow(userID).setVisible(true);
                 });
             }
             if (index == 4) {

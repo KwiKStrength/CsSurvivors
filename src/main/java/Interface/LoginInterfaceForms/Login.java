@@ -109,12 +109,19 @@ public class Login extends JPanel {
                                 JOptionPane.showMessageDialog(null, "Error retrieving USERID: " + ex.getMessage());
                             }
                         } else if (role.equals("admin")) {
+                            USERID = resultSet.getInt("USERID");
                             loginInterface.setVisible(false);
+                            txtUsername.setText("");
+                            txtPassword.setText("");
                             Dashboard.launchDashboard(USERID);
+                            System.out.println(USERID);
                         } else if (role.equals("chef")) {
+                            USERID = resultSet.getInt("USERID");
+                            txtUsername.setText("");
+                            txtPassword.setText("");
                             loginInterface.setVisible(false);
                             JFrame frame = new JFrame("Order List");
-                            OrderList orderList = new OrderList("chef");
+                            OrderList orderList = new OrderList("chef",loginInterface);
                             frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
                             frame.setUndecorated(true);
                             frame.getContentPane().add(orderList);

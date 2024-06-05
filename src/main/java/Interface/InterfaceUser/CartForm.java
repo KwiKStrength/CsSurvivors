@@ -202,7 +202,7 @@ public class CartForm extends JPanel {
     }
 
     private boolean hasPendingOrBeingPreparedOrder(Connection conn) throws SQLException {
-        String query = "SELECT COUNT(*) FROM ORDER_TABLE WHERE USERID = ? AND (orderstatus = 'Pending' OR orderstatus = 'Being prepared')";
+        String query = "SELECT COUNT(*) FROM ORDER_TABLE WHERE USERID = ? AND (orderstatus = 'Pending' OR orderstatus = 'Being prepared' OR orderstatus = 'Ready')";
         try (PreparedStatement stmt = conn.prepareStatement(query)) {
             stmt.setInt(1, userID);
             ResultSet rs = stmt.executeQuery();

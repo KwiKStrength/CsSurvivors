@@ -25,12 +25,12 @@ public class OrderChef extends JPanel {
     private String orderStatus;
     private JLabel dateLabel;
 
-    public OrderChef(String ORDERID, List<Integer> ITEMIDList, List<Integer> quantityList, Date dt, float orderprice, String orderstatus) {
+    public OrderChef(String ORDERID, List<Integer> ITEMIDList, List<Integer> quantityList, Date dt, float orderprice, String orderstatus, JViewport viewport) {
         this.orderId = ORDERID;
         this.orderStatus = orderstatus;
         setLayout(new BorderLayout());
         JPanel contentPanel = new JPanel(new MigLayout("fillx, insets 15", "[left]push[right]", "[]10[]10[]20[][]20[]"));
-        contentPanel.setPreferredSize(new Dimension(400, 200)); // Taille préférée
+        contentPanel.setPreferredSize(new Dimension(400, 200));
 
         setBorder(new RoundBorder(15));
         SimpleDateFormat sdf = new SimpleDateFormat("dd/MM/yyyy");

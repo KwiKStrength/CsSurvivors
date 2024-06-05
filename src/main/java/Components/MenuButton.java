@@ -27,7 +27,7 @@ public class MenuButton extends JButton {
     private byte[] image;
     private RippleEffect effect;
 
-    public MenuButton(int id,byte[] image, String text,int userID) {
+    public MenuButton(int id, byte[] image, String text, int userID) {
         setOpaque(false);
         this.image = image;
         this.id = id;
@@ -41,7 +41,7 @@ public class MenuButton extends JButton {
         addMouseListener(new MouseAdapter() {
             @Override
             public void mouseClicked(MouseEvent e) {
-                MenuInterface.showForm(new ItemForm(id,userID));
+                MenuInterface.showForm(new ItemForm(id, userID));
             }
         });
 
@@ -71,7 +71,6 @@ public class MenuButton extends JButton {
         }
     }
 
-
     @Override
     public void paint(Graphics g) {
         super.paint(g);
@@ -88,8 +87,8 @@ public class MenuButton extends JButton {
 
         Graphics2D g2d1 = (Graphics2D) g;
         g2d1.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
-        g2d1.setColor(Color.BLACK);
-        g2d1.setStroke(new BasicStroke(5));
+        g2d1.setColor(getBackground());
+        g2d1.setStroke(new BasicStroke(50));
         g2d1.draw(new RoundRectangle2D.Double(0, 0, getWidth(), getHeight(), 4 * 40, 4 * 40));
 
         if (image != null) {
@@ -97,10 +96,6 @@ public class MenuButton extends JButton {
             g.drawImage(img, 0, 0, getWidth(), getHeight(), this);
         }
     }
-
-
-
-
 
     private class RoundedBorder extends AbstractBorder {
         private final int radius;
@@ -111,13 +106,6 @@ public class MenuButton extends JButton {
 
         @Override
         public void paintBorder(Component c, Graphics g, int x, int y, int width, int height) {
-            Graphics2D g2d = (Graphics2D) g.create();
-
-            g2d.setColor(Color.BLACK);
-            g2d.setStroke(new BasicStroke(2));
-            g2d.draw(new RoundRectangle2D.Double(x, y, width - 1, height - 1, radius, radius));
-
-            g2d.dispose();
         }
 
         @Override
