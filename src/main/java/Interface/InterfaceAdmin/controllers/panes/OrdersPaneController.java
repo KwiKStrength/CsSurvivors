@@ -44,20 +44,19 @@ public class OrdersPaneController implements Initializable {
     private void loadOrdersFromDatabase() {
         Map<String, Order> orderMap = new HashMap<>();
 
-        String query = "SELECT OT.ORDERID, OT.USERID, OT.dt, OT.orderstatus, OT.orderprice, OI.ORDERITEMID, OI.ITEMID, OI.quantity, AU.username, AU.email, AU.role, AU.HWID, I.name AS item_name, I.unitprice AS item_unitprice, I.description AS item_description FROM ORDER_TABLE OT JOIN ORDERITEM OI ON OT.ORDERID = OI.ORDERID JOIN APPUSER AU ON OT.USERID = AU.USERID JOIN ITEM I ON OI.ITEMID = I.ITEMID  ";
+        String query = "SELECT OT.ORDERID, OT.dt, OT.orderprice, OT.orderstatus, AU.username, AU.USERID, AU.email FROM ORDER_TABLE OT JOIN APPUSER AU ON OT.USERID = AU.USERID;";
         try (Connection conn = Connexion.etablirConnexion(); PreparedStatement ps = conn.prepareStatement(query); ResultSet rs = ps.executeQuery()) {
             while (rs.next()) {
                 String orderId = rs.getString("ORDERID");
                 Order order = orderMap.get(orderId);
+
                 if (order == null) {
                     Customers customer = new Customers(rs.getInt("USERID"), rs.getString("username"), rs.getString("email"));
                     order = new Order(orderId, customer, rs.getTimestamp("dt"), rs.getString("orderstatus"), rs.getDouble("orderprice"));
                     orderMap.put(orderId, order);
                 }
-                Product product = new Product(rs.getInt("ITEMID"), rs.getString("item_name"), rs.getString("item_description"), rs.getDouble("item_unitprice"), "");
-                order.addProduct(product);
             }
-            orders.setAll(orderMap.values()); // Assuming orders is an ObservableList
+            orders.setAll(orderMap.values()); // Update the observable list for JavaFX UI
         } catch (SQLException e) {
             e.printStackTrace();
         }

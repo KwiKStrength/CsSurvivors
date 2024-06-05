@@ -5,10 +5,11 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.Pane?>
+<?import javafx.scene.control.Label?>
 <?import javafx.scene.text.Font?>
 <?import javafx.scene.text.Text?>
 
-<AnchorPane prefHeight="500.0" prefWidth="1036.0" style="-fx-border-color: black;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1">
+<AnchorPane prefHeight="500.0" prefWidth="1036.0" style="-fx-border-color: black;" xmlns="http://javafx.com/javafx/21" xmlns:fx="http://javafx.com/fxml/1" fx:controller="Interface.InterfaceAdmin.controllers.panes.DashboardPaneController">
    <children>
       <Pane maxHeight="-Infinity" prefHeight="81.0" prefWidth="1036.0">
          <children>
@@ -17,7 +18,7 @@
                   <Font name="SansSerif Bold" size="24.0" />
                </font>
             </Text>
-            <Text layoutX="14.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to CsSurvivor Admin!" wrappingWidth="204.80343627929688">
+            <Text layoutX="14.0" layoutY="56.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Welcome to Campus Grill Admin!" wrappingWidth="204.80343627929688">
                <font>
                   <Font size="13.0" />
                </font>
@@ -25,88 +26,85 @@
          </children>
       </Pane>
 
-      <HBox alignment="BOTTOM_CENTER" layoutX="-2.0" layoutY="74.0" prefHeight="132.0" prefWidth="1036.0" spacing="109.0">
+      <HBox alignment="CENTER" layoutX="0.0" layoutY="74.0" prefHeight="132.0" prefWidth="1036.0" spacing="100.0">
          <children>
-            <Pane prefHeight="132.0" prefWidth="125.0">
+            <Pane prefHeight="132.0" prefWidth="150.0">
                <children>
-                  <ImageView fitHeight="68.0" fitWidth="58.0" layoutX="4.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="68.0" fitWidth="58.0" layoutX="46.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../Image/AdminInterface/burger.png" />
                      </image>
                   </ImageView>
-                  <Text fill="#a3a3a3" layoutX="71.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOTAL MENUS" wrappingWidth="65.54811096191406">
+                  <Text fill="#a3a3a3" layoutX="40.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOTAL ITEMS" wrappingWidth="100.0">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Text>
-                  <Text layoutX="71.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="56">
+                  <Label fx:id="totalMenusLabel" layoutX="50.0" layoutY="115.0" text="0">
                      <font>
                         <Font name="System Bold Italic" size="24.0" />
                      </font>
-                  </Text>
+                  </Label>
                </children>
             </Pane>
-            <Pane prefHeight="132.0" prefWidth="125.0">
+            <Pane prefHeight="132.0" prefWidth="150.0">
                <children>
-                  <ImageView fitHeight="68.0" fitWidth="58.0" layoutX="4.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="68.0" fitWidth="58.0" layoutX="46.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../Image/AdminInterface/dollar-sign.png" />
                      </image>
                   </ImageView>
-                  <Text fill="#a3a3a3" layoutX="63.0" layoutY="83.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOTAL REVENUES" wrappingWidth="72.21479797363281">
+                  <Text fill="#a3a3a3" layoutX="30.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOTAL REVENUES" wrappingWidth="120.0">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Text>
-                  <Text layoutX="63.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="500K">
+                  <Label fx:id="totalRevenuesLabel" layoutX="50.0" layoutY="115.0" text="0">
                      <font>
                         <Font name="System Bold Italic" size="24.0" />
                      </font>
-                  </Text>
+                  </Label>
                </children>
             </Pane>
-            <Pane prefHeight="132.0" prefWidth="125.0">
+            <Pane prefHeight="132.0" prefWidth="150.0">
                <children>
-                  <ImageView fitHeight="68.0" fitWidth="58.0" layoutX="4.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="68.0" fitWidth="58.0" layoutX="46.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../Image/AdminInterface/shopping-bag.png" />
                      </image>
                   </ImageView>
-                  <Text fill="#a3a3a3" layoutX="71.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOTAL ORDERS" wrappingWidth="65.54811096191406">
+                  <Text fill="#a3a3a3" layoutX="40.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOTAL ORDERS" wrappingWidth="100.0">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Text>
-                  <Text layoutX="71.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="56">
+                  <Label fx:id="totalOrdersLabel" layoutX="50.0" layoutY="115.0" text="0">
                      <font>
                         <Font name="System Bold Italic" size="24.0" />
                      </font>
-                  </Text>
+                  </Label>
                </children>
             </Pane>
-            <Pane prefHeight="132.0" prefWidth="125.0">
+            <Pane prefHeight="132.0" prefWidth="150.0">
                <children>
-                  <ImageView fitHeight="68.0" fitWidth="58.0" layoutX="4.0" layoutY="44.0" pickOnBounds="true" preserveRatio="true">
+                  <ImageView fitHeight="68.0" fitWidth="58.0" layoutX="46.0" layoutY="10.0" pickOnBounds="true" preserveRatio="true">
                      <image>
                         <Image url="@../../Image/AdminInterface/multiple-users.png" />
                      </image>
                   </ImageView>
-                  <Text fill="#a3a3a3" layoutX="71.0" layoutY="87.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOTAL CLIENTS" wrappingWidth="65.54811096191406">
+                  <Text fill="#a3a3a3" layoutX="40.0" layoutY="90.0" strokeType="OUTSIDE" strokeWidth="0.0" text="TOTAL CLIENTS" wrappingWidth="100.0">
                      <font>
                         <Font name="System Bold" size="14.0" />
                      </font>
                   </Text>
-                  <Text layoutX="71.0" layoutY="66.0" strokeType="OUTSIDE" strokeWidth="0.0" text="56">
+                  <Label fx:id="totalClientsLabel" layoutX="50.0" layoutY="115.0" text="0">
                      <font>
                         <Font name="System Bold Italic" size="24.0" />
                      </font>
-                  </Text>
+                  </Label>
                </children>
             </Pane>
          </children>
       </HBox>
-
-
-
    </children>
 </AnchorPane>

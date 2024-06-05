@@ -97,12 +97,9 @@ public class DashboardController implements Initializable {
 
     @FXML
     private void handleLogout() {
-        // Ensure the scene is not null
         if (stackPane.getScene() != null) {
             Stage stage = (Stage) stackPane.getScene().getWindow();
             stage.close();
-
-            // Show the login interface
             SwingUtilities.invokeLater(() -> new LoginInterface().setVisible(true));
         } else {
             System.err.println("Scene is null, cannot log out.");
