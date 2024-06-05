@@ -31,7 +31,7 @@
                         <MFXButton onAction="#loadCategoryPane" prefHeight="49.0" prefWidth="162.0" text="Category" />
                         <MFXButton onAction="#loadAddProductPane" prefHeight="49.0" prefWidth="162.0" text="Add Product / Category" />
                         <MFXButton onAction="#loadUserProfilePane" prefHeight="49.0" prefWidth="162.0" text="Profile" />
-                        <MFXButton onAction="#handleLogout" prefHeight="49.0" prefWidth="162.0" text="Logout" style="-fx-graphic: url('Image/logout.png'); -fx-alignment: CENTER_LEFT;" />
+                        <MFXButton onAction="#handleLogout" prefHeight="49.0" prefWidth="162.0" text="Logout" />
                     </children>
                 </VBox>
                 <SplitPane fx:id="splitPaneId" dividerPositions="0.04642857142857143" orientation="VERTICAL" prefHeight="1213.0" prefWidth="1037.0" style="-fx-background-color: white;">
